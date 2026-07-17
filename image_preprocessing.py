@@ -11,10 +11,21 @@ MIN_FACE_AREA_RATIO = 0.08
 
 
 # Detect the largest face in the image and add a little padding so facial context is preserved.
+# If the OpenCV build does not expose Haar cascades correctly, return None and let callers fall back to a manual crop.
 def detect_face_crop(image):
-    cascade = cv2.CascadeClassifier(
-        cv2.data.haarcascades + "haarcascade_frontalface_default.xml"
-    )
+    if not hasattr(cv2, "CascadeClassifier") or not hasattr(cv2, "data"):
+        return None
+
+    try:
+        cascade = cv2.CascadeClassifier(
+            cv2.data.haarcascades + "haarcascade_frontalface_default.xml"
+        )
+    except Exception:
+        return None
+
+    if cascade is None or not hasattr(cascade, "detectMultiScale"):
+        return None
+
     grayscale = cv2.cvtColor(np.array(image), cv2.COLOR_RGB2GRAY)
     faces = cascade.detectMultiScale(
         grayscale,
