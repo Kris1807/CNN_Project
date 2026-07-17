@@ -1,6 +1,9 @@
 from pathlib import Path
 
-import cv2
+try:
+    import cv2
+except ImportError:
+    cv2 = None
 import numpy as np
 from PIL import Image
 from torchvision import transforms
@@ -13,7 +16,7 @@ MIN_FACE_AREA_RATIO = 0.08
 # Detect the largest face in the image and add a little padding so facial context is preserved.
 # If the OpenCV build does not expose Haar cascades correctly, return None and let callers fall back to a manual crop.
 def detect_face_crop(image):
-    if not hasattr(cv2, "CascadeClassifier") or not hasattr(cv2, "data"):
+    if cv2 is None or not hasattr(cv2, "CascadeClassifier") or not hasattr(cv2, "data"):
         return None
 
     try:

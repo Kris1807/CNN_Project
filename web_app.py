@@ -10,7 +10,6 @@ import torch
 import torch.nn.functional as F
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import HTMLResponse
-from matplotlib import colormaps
 from PIL import Image
 from pydantic import BaseModel
 from torchvision import models as tv_models
@@ -93,9 +92,18 @@ def denormalize_tensor(tensor: torch.Tensor) -> np.ndarray:
     return image.clamp(0, 1).permute(1, 2, 0).numpy()
 
 
+# Use a small NumPy-based jet-style colormap so the web deployment does not need matplotlib.
+def apply_jet_colormap(cam_map: np.ndarray) -> np.ndarray:
+    cam = np.clip(cam_map, 0.0, 1.0)
+    red = np.clip(1.5 - np.abs(4.0 * cam - 3.0), 0.0, 1.0)
+    green = np.clip(1.5 - np.abs(4.0 * cam - 2.0), 0.0, 1.0)
+    blue = np.clip(1.5 - np.abs(4.0 * cam - 1.0), 0.0, 1.0)
+    return np.stack([red, green, blue], axis=-1)
+
+
 # Blend the normalized Grad-CAM map onto the model input image so the result is easy to interpret in the UI.
 def build_overlay_image(display_image: np.ndarray, cam_map: np.ndarray) -> Image.Image:
-    heat = colormaps["jet"](cam_map)[..., :3]
+    heat = apply_jet_colormap(cam_map)
     overlay = np.clip(0.55 * display_image + 0.45 * heat, 0, 1)
     return Image.fromarray((overlay * 255).astype("uint8"))
 

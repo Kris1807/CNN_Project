@@ -30,6 +30,7 @@ The project includes:
 
 - `README.md`
 - `requirements.txt`
+- `requirements-full.txt`
 - `best_resnet18.pt`
 - `train.py`
 - `evaluate.py`
@@ -63,13 +64,16 @@ Python 3.10 or newer is recommended.
 3. Create and activate a virtual environment.
 4. Install the required packages.
 
+Use `requirements-full.txt` for the full training, evaluation, Grad-CAM, and webcam project on a local computer.
+Use `requirements.txt` for the lighter web deployment setup.
+
 ### macOS / Linux
 
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
 python -m pip install --upgrade pip
-python -m pip install -r requirements.txt
+python -m pip install -r requirements-full.txt
 ```
 
 ### Windows PowerShell
@@ -78,12 +82,14 @@ python -m pip install -r requirements.txt
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
 python -m pip install --upgrade pip
-python -m pip install -r requirements.txt
+python -m pip install -r requirements-full.txt
 ```
 
 ## Deploy The Web Demo On Vercel
 
 This repository includes a browser-based FastAPI demo for the trained model.
+For Vercel, keep `requirements.txt` as the lighter deployment dependency set.
+For the full local project, install from `requirements-full.txt`.
 
 1. Push the project to GitHub with these files present:
    - `app.py`
