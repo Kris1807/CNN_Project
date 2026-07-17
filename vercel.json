@@ -1,0 +1,9 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "functions": {
+    "app.py": {
+      "includeFiles": "best_resnet18.pt",
+      "excludeFiles": "{train/**,Evaluate/**,test/**,test_prepared/**,test_Outputs/**,SUBMITTED/**,gradcam_outputs/**,gradcam_run*/**,custom_gradcam_outputs/**,custom_gradcam_outputs_prepared/**,.venv/**,__pycache__/**,eval_run*.txt,Screenshot*.png,*.zip}"
+    }
+  }
+}

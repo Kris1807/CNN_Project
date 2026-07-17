@@ -81,6 +81,29 @@ python -m pip install --upgrade pip
 python -m pip install -r requirements.txt
 ```
 
+## Deploy The Web Demo On Vercel
+
+This repository includes a browser-based FastAPI demo for the trained model.
+
+1. Push the project to GitHub with these files present:
+   - `app.py`
+   - `web_app.py`
+   - `image_preprocessing.py`
+   - `models.py`
+   - `requirements.txt`
+   - `best_resnet18.pt`
+2. Import the repository into Vercel.
+3. Vercel should now auto-detect `app.py` as the FastAPI entrypoint.
+4. Redeploy after each Git push.
+
+Notes:
+
+- `web_app.py` remains the main application file for local development.
+- `.vercelignore` excludes the FER dataset folders and generated outputs so the deploy upload stays smaller.
+- `vercel.json` keeps the serverless bundle focused on inference and explicitly includes `best_resnet18.pt`.
+- `.python-version` pins the Vercel runtime to Python 3.12 for a more stable PyTorch install path.
+- This app runs PyTorch inference, so cold starts on Vercel may still be slower than local execution.
+
 ## Fastest Way To Run The Project
 
 1. Demonstration is the live webcam mode:

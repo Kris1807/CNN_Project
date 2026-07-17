@@ -1,0 +1,21 @@
+# Local virtual environment and cache
+.venv/
+__pycache__/
+*.py[cod]
+
+# Training and evaluation datasets are not needed for the web demo deployment
+train/
+Evaluate/
+test/
+test_prepared/
+test_Outputs/
+
+# Generated outputs and local submission artifacts
+SUBMITTED/
+gradcam_outputs/
+gradcam_run*/
+custom_gradcam_outputs/
+custom_gradcam_outputs_prepared/
+eval_run*.txt
+Screenshot*.png
+*.zip
